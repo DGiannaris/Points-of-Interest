@@ -2,6 +2,7 @@ import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import List_MapScreen from './List_MapScreen.js';
+import * as Animatable from 'react-native-animatable';
 
 import {
   Image,
@@ -17,14 +18,17 @@ import {
 
 console.disableYellowBox = true
 
+
  function HomeScreen(props) {
+
   return (
     <View style={styles.container}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}>
 
-        <Text style={styles.tabBarInfoText}>Welcome to POIS</Text>
+        <Text style={styles.tabBarInfoText}>GO</Text>
+            <Animatable.Text animation="rubberBand" easing="ease-in-out" iterationCount="infinite" style={styles.tabBarArrow}>▼</Animatable.Text>
         <TouchableHighlight style={styles.touchableHigh} onPress={() => props.navigation.navigate('List_Map')}>
           <View><Image style={styles.welcomeImage} source={require('./assets/demap.png')}/></View>
         </TouchableHighlight>
@@ -37,23 +41,34 @@ console.disableYellowBox = true
 
 
 
+
 const RootStack = createStackNavigator(
-  {
-    Home: HomeScreen,
-    List_Map: List_MapScreen,
+  { Home:{
+     screen:HomeScreen,
+     navigationOptions: () => ({
+          title: 'Welcome to POIS',
+          headerStyle:{ backgroundColor:'#80DEEA'},
+          headerTitleStyle:{ color: '#E0F7FA'},
+        }),
   },
-  {
-    initialRouteName: 'Home',
-  }
-);
+  List_Map:{
+    screen:List_MapScreen,
+    navigationOptions: () => ({
+         title: 'List/Map',
+         headerStyle:{ backgroundColor:'#80DEEA'},
+         headerTitleStyle:{ color: '#E0F7FA'},
+         headerTintColor:'#E0F7FA',
+       }),
+  },});
 
 const AppContainer = createAppContainer(RootStack);
 
 
 
 export default function App() {
+
   return (
-    <AppContainer />
+    <AppContainer style={{backgroundColor:'red',}}/>
   );
 }
 
@@ -62,38 +77,22 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  imgShadow:{
-    shadowColor: '#202020',
-    shadowOffset: {width: 0, height: 0},
-    shadowRadius: 5,
+    backgroundColor: '#00ACC1',
   },
   touchableHigh:{
       height: 150,
       width:150,
-      marginTop:100,
+      marginTop:96,
       marginLeft: 105,
       borderRadius:100,
+      backgroundColor:'#80DEEA',
       shadowColor: '#202020',
       shadowOffset: {width: 0, height: 0},
       shadowRadius: 5,
       elevation:2,
   },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
   contentContainer: {
     paddingTop: 30,
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
   },
   welcomeImage: {
     width: 100,
@@ -103,64 +102,16 @@ const styles = StyleSheet.create({
     marginLeft: 26,
 
   },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
   tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
+    fontSize: 20,
+    fontWeight:'400',
+    color: '#80DEEA',
     textAlign: 'center',
   },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
+  tabBarArrow: {
+    fontSize: 40,
+    fontWeight:'400',
+    color: '#80DEEA',
+    textAlign: 'center',
   },
 });
