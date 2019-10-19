@@ -1,8 +1,7 @@
 import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import List_MapScreen from './List_MapScreen.js';
-
+import MapView from 'react-native-maps';
 import {
   Image,
   Platform,
@@ -15,49 +14,30 @@ import {
   Alert,
 } from 'react-native';
 
-console.disableYellowBox = true
 
- function HomeScreen(props) {
+
+
+export default function List_MapScreen() {
+
+
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
-
-        <Text style={styles.tabBarInfoText}>Welcome to POIS</Text>
-        <TouchableHighlight style={styles.touchableHigh} onPress={() => props.navigation.navigate('List_Map')}>
-          <View><Image style={styles.welcomeImage} source={require('./assets/demap.png')}/></View>
-        </TouchableHighlight>
-      </ScrollView>
-
-
+    < MapView style = {  {  flex: 1}  }
+        region = {
+          {
+            latitude: 37.973563,
+            longitude: 23.726044,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421
+          }
+        }
+        showsUserLocation = {
+          true
+        }
+        />
     </View>
   );
 }
-
-
-
-const RootStack = createStackNavigator(
-  {
-    Home: HomeScreen,
-    List_Map: List_MapScreen,
-  },
-  {
-    initialRouteName: 'Home',
-  }
-);
-
-const AppContainer = createAppContainer(RootStack);
-
-
-
-export default function App() {
-  return (
-    <AppContainer />
-  );
-}
-
-
 
 const styles = StyleSheet.create({
   container: {
