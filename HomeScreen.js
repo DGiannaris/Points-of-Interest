@@ -27,7 +27,7 @@ export default function HomeScreen() {
       </ScrollView>
 
 
-    </View>
+    </View> 
   );
 }
 
