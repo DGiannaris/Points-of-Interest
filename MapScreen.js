@@ -1,8 +1,5 @@
 import React,{useState} from 'react';
 import {useEffect} from 'react';
-import { createAppContainer} from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
 import * as Permissions from 'expo-permissions';
 import * as Location from  'expo-location';
 import MapView from 'react-native-maps';
@@ -20,40 +17,41 @@ import {
 
 
 
-
+// the Map component, self explanatory
+// I didnt store this state prop in Redux cause its just a 'flag'
+//should do in the future though
 export default function MapScreen(props) {
 
-const [userLoc,setUserLoc]=useState(null)
+  const [userLoc,setUserLoc]=useState(null)
 
-useEffect(()=>{
+  useEffect(()=>{
 
-this._getLocationAsync();
+  this._getLocationAsync();
 
-},[]);
+  },[]);
 
-_getLocationAsync = async () => {
-let {status} = await Permissions.askAsync(Permissions.LOCATION);
+  _getLocationAsync = async () => {
+    let {status} = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {setUserLoc( 'Permission to access location was denied');
+  }
 
-if (status !== 'granted') {setUserLoc( 'Permission to access location was denied');
-}
-
-let location = await Location.getCurrentPositionAsync({});
-setUserLoc( JSON.stringify(location) );
-};
+  let location = await Location.getCurrentPositionAsync({});
+  setUserLoc( JSON.stringify(location) );
+  };
 
   return (
     <View style={styles.container}>
-    < MapView style = {  {  flex: 1}  }
-        region = {
-          {
-            latitude: 37.973563,
-            longitude: 23.726044,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421
+      < MapView style = {  {  flex: 1}  }
+          region = {
+            {
+              latitude: 37.973563,
+              longitude: 23.726044,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421
+            }
           }
-        }
-        showsUserLocation = {  true }
-        />
+          showsUserLocation = {  true }
+          />
     </View>
   );
 }

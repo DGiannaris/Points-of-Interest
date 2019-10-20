@@ -7,24 +7,27 @@ import * as Animatable from 'react-native-animatable';
 import MapScreen from './MapScreen.js';
 import ListScreen from './ListScreen.js';
 import store from './chatStore.js';
+import { connect } from 'react-redux';
 import { Provider } from 'react-redux';
 
 import {
+  AppRegistry,
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   TouchableHighlight,
   View,
-  Alert,
 } from 'react-native';
 
+//no warning spam please
 console.disableYellowBox = true
 
-
+//HomeScreen, didnt use different js file cause its a splash screen anyway..noone is gonna ever touch it again
  function HomeScreen(props) {
+
+
+     const [points,setPoints]=useState(store.getState());
 
   return (
     <View style={styles.container}>
@@ -33,27 +36,33 @@ console.disableYellowBox = true
         contentContainerStyle={styles.contentContainer}>
 
         <Text style={styles.tabBarInfoText}>GO</Text>
-            <Animatable.Text animation="rubberBand" easing="ease-in-out" iterationCount="infinite" style={styles.tabBarArrow}>▼</Animatable.Text>
+        <Animatable.Text animation="rubberBand" easing="ease-in-out" iterationCount="infinite" style={styles.tabBarArrow}>▼</Animatable.Text>
         <TouchableHighlight style={styles.touchableHigh} onPress={() => props.navigation.navigate('List_Map')}>
-          <View><Image style={styles.welcomeImage} source={require('./assets/demap.png')}/></View>
+          <View>
+            <Image style={styles.welcomeImage} source={require('./assets/demap.png')}/>
+          </View>
         </TouchableHighlight>
       </ScrollView>
-
-
     </View>
   );
 }
 
 
+
+
+let ListContainer = connect(state => ({ points: state }))(ListScreen);
+let MapContainer = connect(state => ({ points: state }))(MapScreen);
+
+//routes/stacks..navigation in general (<a> is so much better)
 const ListMapStack1 = createStackNavigator({
   Map:{
-     screen:MapScreen,
+     screen:MapContainer,
      navigationOptions: () => ({
           header:null,
         }),
   },
   List:{
-     screen:ListScreen,
+     screen:ListContainer,
      navigationOptions: () => ({
           header:null,
         }),
@@ -66,13 +75,13 @@ const ListMapStack1 = createStackNavigator({
 
 const ListMapStack2 = createStackNavigator({
   Map:{
-     screen:MapScreen,
+     screen:MapContainer,
      navigationOptions: () => ({
           header:null,
         }),
   },
   List:{
-     screen:ListScreen,
+     screen:ListContainer,
      navigationOptions: () => ({
           header:null,
         }),
@@ -83,7 +92,7 @@ const ListMapStack2 = createStackNavigator({
   }
 );
 
-
+//stack navigator and appcontainer for the App component
 const RootStack = createStackNavigator(
   { Home:{
      screen:HomeScreen,
@@ -110,24 +119,16 @@ const RootStack = createStackNavigator(
 const AppContainer = createAppContainer(RootStack);
 
 
-
 export default function App() {
-
-
-  const [points,setPoints]=useState(store.getState());
-  //Alert.alert(points.points.toString())
-
-
-
-
 
   return (
     <Provider store={store}>
-    <AppContainer screenProps={{ points: points}}/>
+      <AppContainer />
     </Provider>
   );
 }
-
+//----------------------------------------------------------
+AppRegistry.registerComponent("NCAPRNRedux", () => App);
 
 
 const styles = StyleSheet.create({
