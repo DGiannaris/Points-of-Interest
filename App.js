@@ -1,11 +1,13 @@
-import React from 'react';
-import { createAppContainer } from 'react-navigation';
+import React,{useState} from 'react';
+import { createAppContainer,addNavigationHelpers  } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import List_MapScreen from './List_MapScreen.js';
 import * as Animatable from 'react-native-animatable';
 import MapScreen from './MapScreen.js';
 import ListScreen from './ListScreen.js';
+import store from './chatStore.js';
+import { Provider } from 'react-redux';
 
 import {
   Image,
@@ -101,6 +103,7 @@ const RootStack = createStackNavigator(
          headerStyle:{ backgroundColor:'#80DEEA'},
          headerTitleStyle:{ color: '#E0F7FA'},
          headerTintColor:'#E0F7FA',
+
        }),
   },});
 
@@ -110,8 +113,18 @@ const AppContainer = createAppContainer(RootStack);
 
 export default function App() {
 
+
+  const [points,setPoints]=useState(store.getState());
+  //Alert.alert(points.points.toString())
+
+
+
+
+
   return (
-    <AppContainer style={{backgroundColor:'red',}}/>
+    <Provider store={store}>
+    <AppContainer screenProps={{ points: points}}/>
+    </Provider>
   );
 }
 

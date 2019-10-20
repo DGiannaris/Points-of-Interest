@@ -23,7 +23,7 @@ import {
 
 
 
-export default function List_MapScreen() {
+export default function List_MapScreen(props) {
 
 
 

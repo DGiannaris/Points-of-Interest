@@ -21,7 +21,7 @@ import {
 
 
 
-export default function MapScreen() {
+export default function MapScreen(props) {
 
 const [userLoc,setUserLoc]=useState(null)
 
