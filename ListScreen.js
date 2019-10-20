@@ -6,8 +6,6 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import * as Permissions from 'expo-permissions';
 import * as Location from  'expo-location';
 import MapView from 'react-native-maps';
-import MapScreen from './MapScreen.js';
-import ListScreen from './ListScreen.js';
 import {
   Image,
   Platform,
@@ -23,14 +21,12 @@ import {
 
 
 
-export default function List_MapScreen() {
-
-
+export default function ListScreen() {
 
 
   return (
     <View style={styles.container}>
-      <Text>Tabs</Text>
+      <Text>List!!</Text>
     </View>
   );
 }

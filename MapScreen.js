@@ -6,8 +6,6 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import * as Permissions from 'expo-permissions';
 import * as Location from  'expo-location';
 import MapView from 'react-native-maps';
-import MapScreen from './MapScreen.js';
-import ListScreen from './ListScreen.js';
 import {
   Image,
   Platform,
@@ -23,14 +21,39 @@ import {
 
 
 
-export default function List_MapScreen() {
+export default function MapScreen() {
 
+const [userLoc,setUserLoc]=useState(null)
 
+useEffect(()=>{
 
+this._getLocationAsync();
+
+},[]);
+
+_getLocationAsync = async () => {
+let {status} = await Permissions.askAsync(Permissions.LOCATION);
+
+if (status !== 'granted') {setUserLoc( 'Permission to access location was denied');
+}
+
+let location = await Location.getCurrentPositionAsync({});
+setUserLoc( JSON.stringify(location) );
+};
 
   return (
     <View style={styles.container}>
-      <Text>Tabs</Text>
+    < MapView style = {  {  flex: 1}  }
+        region = {
+          {
+            latitude: 37.973563,
+            longitude: 23.726044,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421
+          }
+        }
+        showsUserLocation = {  true }
+        />
     </View>
   );
 }

@@ -1,8 +1,11 @@
 import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import List_MapScreen from './List_MapScreen.js';
 import * as Animatable from 'react-native-animatable';
+import MapScreen from './MapScreen.js';
+import ListScreen from './ListScreen.js';
 
 import {
   Image,
@@ -40,6 +43,43 @@ console.disableYellowBox = true
 }
 
 
+const ListMapStack1 = createStackNavigator({
+  Map:{
+     screen:MapScreen,
+     navigationOptions: () => ({
+          header:null,
+        }),
+  },
+  List:{
+     screen:ListScreen,
+     navigationOptions: () => ({
+          header:null,
+        }),
+  },
+
+},{
+    initialRouteName: 'Map',
+  }
+);
+
+const ListMapStack2 = createStackNavigator({
+  Map:{
+     screen:MapScreen,
+     navigationOptions: () => ({
+          header:null,
+        }),
+  },
+  List:{
+     screen:ListScreen,
+     navigationOptions: () => ({
+          header:null,
+        }),
+  },
+
+},{
+    initialRouteName: 'List',
+  }
+);
 
 
 const RootStack = createStackNavigator(
@@ -52,7 +92,10 @@ const RootStack = createStackNavigator(
         }),
   },
   List_Map:{
-    screen:List_MapScreen,
+    screen:createBottomTabNavigator({
+      List:ListMapStack2,
+      Map:ListMapStack1,
+    }),
     navigationOptions: () => ({
          title: 'List/Map',
          headerStyle:{ backgroundColor:'#80DEEA'},
