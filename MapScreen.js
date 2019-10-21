@@ -22,22 +22,7 @@ import {
 //should do in the future though
 export default function MapScreen(props) {
 
-  const [userLoc,setUserLoc]=useState(null)
 
-  useEffect(()=>{
-
-  this._getLocationAsync();
-
-  },[]);
-
-  _getLocationAsync = async () => {
-    let {status} = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {setUserLoc( 'Permission to access location was denied');
-  }
-
-  let location = await Location.getCurrentPositionAsync({});
-  setUserLoc( JSON.stringify(location) );
-  };
 
   return (
     <View style={styles.container}>

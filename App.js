@@ -1,4 +1,5 @@
 import React,{useState} from 'react';
+import {useEffect} from 'react';
 import { createAppContainer,addNavigationHelpers  } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -9,7 +10,8 @@ import ListScreen from './ListScreen.js';
 import store from './chatStore.js';
 import { connect } from 'react-redux';
 import { Provider } from 'react-redux';
-
+import * as Permissions from 'expo-permissions';
+import * as Location from  'expo-location';
 import {
   AppRegistry,
   Image,
@@ -28,6 +30,7 @@ console.disableYellowBox = true
 
 
      const [points,setPoints]=useState(store.getState());
+
 
   return (
     <View style={styles.container}>
@@ -104,8 +107,8 @@ const RootStack = createStackNavigator(
   },
   List_Map:{
     screen:createBottomTabNavigator({
-      List:ListMapStack2,
       Map:ListMapStack1,
+      List:ListMapStack2,
     }),
     navigationOptions: () => ({
          title: 'List/Map',
@@ -120,10 +123,28 @@ const AppContainer = createAppContainer(RootStack);
 
 
 export default function App() {
+  const [userLoc,setUserLoc]=useState({})
+
+  useEffect(()=>{
+
+  this._getLocationAsync();
+  //store.dispatch({type: "LOGIN"});
+
+  },[]);
+
+  _getLocationAsync = async () => {
+    let {status} = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {setUserLoc( 'Permission to access location was denied');
+  }
+
+  let location = await Location.getCurrentPositionAsync({});
+  setUserLoc( location.coords );
+  };
+
 
   return (
     <Provider store={store}>
-      <AppContainer />
+      <AppContainer screenProps={userLoc} />
     </Provider>
   );
 }
