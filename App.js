@@ -128,9 +128,8 @@ export default function App() {
   useEffect(()=>{
 
   this._getLocationAsync();
-  //store.dispatch({type: "LOGIN"});
-
-  },[]);
+  store.dispatch({type: "LOGIN"});
+  });
 
   _getLocationAsync = async () => {
     let {status} = await Permissions.askAsync(Permissions.LOCATION);
