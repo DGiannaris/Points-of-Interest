@@ -62,21 +62,6 @@ const ListMapStack2 = createStackNavigator(
   }
 );
 
-// tabBarOptions: () => ({
-//      activeBackgroundColor:'red'
-//
-//    }),
-
-// tabBarOptions: {
-//   activeTintColor: '#e91e63',
-//   labelStyle: {
-//     fontSize: 12,
-//   },
-//   style: {
-//     backgroundColor: 'blue',
-//   },
-// }
-
 //stack navigator and appcontainer for the App component
 const RootStack = createStackNavigator(
   { Home:{
