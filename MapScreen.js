@@ -2,7 +2,8 @@ import React,{useState} from 'react';
 import {useEffect} from 'react';
 import * as Permissions from 'expo-permissions';
 import * as Location from  'expo-location';
-import MapView from 'react-native-maps';
+import MapView from 'react-native-map-clustering';
+import {Marker} from 'react-native-maps';
 import {
   Image,
   Platform,
@@ -18,10 +19,15 @@ import {
 
 
 // the Map component, self explanatory
-// I didnt store this state prop in Redux cause its just a 'flag'
-//should do in the future though
 export default function MapScreen(props) {
 
+  //create the Marker components
+  const pointsMarkers=props.points['points'].map((item,ind)=>{
+        return(
+          <Marker key={ind+200}
+            coordinate={{ latitude: parseFloat(item['latitude']), longitude:parseFloat(item['longitude']) }} />
+        )
+      })
 
 
   return (
@@ -29,14 +35,17 @@ export default function MapScreen(props) {
       < MapView style = {  {  flex: 1}  }
           region = {
             {
-              latitude: 37.973563,
-              longitude: 23.726044,
+              latitude: props.screenProps.latitude,
+              longitude: props.screenProps.longitude,
               latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421
+              longitudeDelta: 0.0421,
             }
+
           }
-          showsUserLocation = {  true }
-          />
+          style={{ width: 400, height: 800 }}
+          showsUserLocation = {  true }>
+          {pointsMarkers}
+      </MapView>
     </View>
   );
 }

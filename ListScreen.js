@@ -14,11 +14,7 @@ import {
 // the List component, self explanatory
 export default function ListScreen(props) {
 
-
-
-
-
-
+//get distance from you to a point
   const distance=(lat1, lon1, lat2, lon2, unit)=>{
       let radlat1 = Math.PI * lat1/180;
       let radlat2 = Math.PI * lat2/180;
@@ -33,6 +29,8 @@ export default function ListScreen(props) {
       return (Math.round(dist * 100) / 100).toString();
   }
 
+
+  // simultaneous sort of 2 arrays distances and addresses
   const sorter=()=>{
     let dist=[];
 
@@ -45,23 +43,12 @@ export default function ListScreen(props) {
         'K'),
         'addr':item['address']
       })
-
-
-
     })
 
-
-    dist.sort((a, b)=> {
-      return a.dist-b.dist});
-
-
-  //  sorted.sort((a, b)=> b-a);
-    console.log(dist)
-    return dist;
+    return dist.sort((a, b)=> {return a.dist-b.dist});
   }
 
-//<Text style={styles.item} key={ind} >{item['address']}</Text>)
-//<Text>distance(props.screenProps.latitude,props.screenProps.longitude,item['latitude'],item.['longitude'],'K')</Text>
+
 const listitems = sorter().map((item,ind)=>{
   return (
     <View style={ind % 2===1 ?styles.itemline:null}>
@@ -79,7 +66,6 @@ const listitems = sorter().map((item,ind)=>{
   return (
     <ScrollView style={styles.container}>
       {listitems}
-
     </ScrollView>
   );
 }

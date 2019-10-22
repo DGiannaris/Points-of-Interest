@@ -1,11 +1,9 @@
 import { createStore} from 'redux'
-let customData;
+
 let sec;
+//'hackish way to get initial state,sorry'
 const fetchAsync = async () =>
 	await (await fetch('https://warply.s3.amazonaws.com/data/test_pois.json')).json()
-
-
-
 
   fetchAsync()
       .then(data => sec=data)
@@ -14,18 +12,13 @@ const fetchAsync = async () =>
 
 
 
-//const customData = require('./test_pois.json');
-//console.log(customData)
-const defaultState = {
-  points: customData,
-};
 
-  // even though I dont use him this reducer could potentially work for the login creds
+//simple reducer
 function chatStore(state={}, action) {
 
   switch(action.type) {
     case "LOGIN":
-    console.log(sec);
+
       return {...state,
         points: sec,
         };
