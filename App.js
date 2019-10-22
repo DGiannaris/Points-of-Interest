@@ -24,8 +24,8 @@ let ListContainer = connect(state => ({ points: state }))(ListScreen);
 let MapContainer = connect(state => ({ points: state }))(MapScreen);
 
 //routes/stacks..navigation in general (<a> is so much better)
-const ListMapStack1 = createStackNavigator({
-  Map:{
+const ListMapStack1 = createStackNavigator(
+  { Map:{
      screen:MapContainer,
      navigationOptions: () => ({
           header:null,
@@ -43,8 +43,8 @@ const ListMapStack1 = createStackNavigator({
   }
 );
 
-const ListMapStack2 = createStackNavigator({
-  Map:{
+const ListMapStack2 = createStackNavigator(
+  { Map:{
      screen:MapContainer,
      navigationOptions: () => ({
           header:null,
@@ -62,6 +62,21 @@ const ListMapStack2 = createStackNavigator({
   }
 );
 
+// tabBarOptions: () => ({
+//      activeBackgroundColor:'red'
+//
+//    }),
+
+// tabBarOptions: {
+//   activeTintColor: '#e91e63',
+//   labelStyle: {
+//     fontSize: 12,
+//   },
+//   style: {
+//     backgroundColor: 'blue',
+//   },
+// }
+
 //stack navigator and appcontainer for the App component
 const RootStack = createStackNavigator(
   { Home:{
@@ -74,9 +89,25 @@ const RootStack = createStackNavigator(
   },
   List_Map:{
     screen:createBottomTabNavigator({
-      Map:ListMapStack1,
-      List:ListMapStack2,
-    }),
+      Map: ListMapStack1,
+      List: ListMapStack2,
+    },
+    {
+        initialRouteName:'Map',
+        tabBarOptions: {
+          activeTintColor: '#006064',
+          inactiveTintColor:'#E0F7FA',
+          labelStyle: {
+            fontSize: 17,
+            fontWeight: '500',
+            marginBottom: 10,
+          },
+          style: {
+            backgroundColor: '#80DEEA',
+          },
+        }
+    }
+  ),
     navigationOptions: () => ({
          title: 'List/Map',
          headerStyle:{ backgroundColor:'#80DEEA'},

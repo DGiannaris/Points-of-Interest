@@ -51,9 +51,10 @@ export default function ListScreen(props) {
 
 const listitems = sorter().map((item,ind)=>{
   return (
-    <View style={ind % 2===1 ?styles.itemline:null}>
-    <Text style={styles.item} key={ind} >{item['addr']}</Text>
-    <Text style={styles.dist} key={ind}>
+    <View style={styles.itemline} key={400+ind}>
+    <View style={styles.littleBox} key={500+ind}></View>
+    <Text style={styles.item} key={200+ind} >{item['addr']}</Text>
+    <Text style={styles.dist} key={300+ind}>
       {item['dist'] !='NaN'?`Distance (km): ${item['dist']} `:'Destroyed Data'}
     </Text>
     </View>
@@ -78,12 +79,14 @@ const styles = StyleSheet.create({
      paddingTop: 22
     },
     item: {
+      marginLeft:10,
       padding: 2,
       fontSize: 16,
       height: 44,
       fontWeight:'400'
     },
     dist:{
+      marginLeft:10,
       padding: 2,
       fontSize: 16,
       height: 44,
@@ -91,6 +94,21 @@ const styles = StyleSheet.create({
       color:'#006064'
     },
     itemline:{
-      backgroundColor:'#B2EBF2'
+      backgroundColor:'#FAFAFA',
+      marginLeft:5,
+      marginRight:7,
+      marginBottom:13,
+      shadowColor: '#202020',
+      shadowOffset: {width: 0, height: 0},
+      shadowRadius: 5,
+      elevation:4,
+    },
+    littleBox:{
+      height:88,
+      width:5,
+      backgroundColor:'#0097A7',
+      position: 'absolute',
+      left:0,
+      top:0,
     }
 });

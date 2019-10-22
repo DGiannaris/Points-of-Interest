@@ -24,7 +24,7 @@ export default function MapScreen(props) {
   //create the Marker components
   const pointsMarkers=props.points['points'].map((item,ind)=>{
         return(
-          <Marker key={ind+200}
+          <Marker key={200+item['id']}
             coordinate={{ latitude: parseFloat(item['latitude']), longitude:parseFloat(item['longitude']) }} />
         )
       })
