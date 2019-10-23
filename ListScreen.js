@@ -62,8 +62,6 @@ const listitems = sorter().map((item,ind)=>{
 });
 
 
-
-
   return (
     <ScrollView style={styles.container}>
       {listitems}

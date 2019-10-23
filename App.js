@@ -12,9 +12,11 @@ import { connect } from 'react-redux';
 import { Provider } from 'react-redux';
 import * as Permissions from 'expo-permissions';
 import * as Location from  'expo-location';
+import {fetchPoints} from './setThunk.js';
 import {
   AppRegistry,
 } from 'react-native';
+
 
 //no warning spam please
 console.disableYellowBox = true;
@@ -24,83 +26,88 @@ let ListContainer = connect(state => ({ points: state }))(ListScreen);
 let MapContainer = connect(state => ({ points: state }))(MapScreen);
 
 //routes/stacks..navigation in general (<a> is so much better)
-const ListMapStack1 = createStackNavigator(
-  { Map:{
-     screen:MapContainer,
-     navigationOptions: () => ({
-          header:null,
-        }),
+const ListMapStack1 = createStackNavigator({
+  Map: {
+    screen: MapContainer,
+    navigationOptions: () => ({
+      header: null,
+    }),
   },
-  List:{
-     screen:ListContainer,
-     navigationOptions: () => ({
-          header:null,
-        }),
-  },
-
-},{
-    initialRouteName: 'Map',
-  }
-);
-
-const ListMapStack2 = createStackNavigator(
-  { Map:{
-     screen:MapContainer,
-     navigationOptions: () => ({
-          header:null,
-        }),
-  },
-  List:{
-     screen:ListContainer,
-     navigationOptions: () => ({
-          header:null,
-        }),
+  List: {
+    screen: ListContainer,
+    navigationOptions: () => ({
+      header: null,
+    }),
   },
 
-},{
-    initialRouteName: 'List',
-  }
-);
+}, {
+  initialRouteName: 'Map',
+});
+
+const ListMapStack2 = createStackNavigator({
+  Map: {
+    screen: MapContainer,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+  List: {
+    screen: ListContainer,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+
+}, {
+  initialRouteName: 'List',
+});
 
 //stack navigator and appcontainer for the App component
-const RootStack = createStackNavigator(
-  { Home:{
-     screen:HomeScreen,
-     navigationOptions: () => ({
-          title: 'Welcome to POIS',
-          headerStyle:{ backgroundColor:'#80DEEA'},
-          headerTitleStyle:{ color: '#E0F7FA'},
-        }),
-  },
-  List_Map:{
-    screen:createBottomTabNavigator({
-      Map: ListMapStack1,
-      List: ListMapStack2,
-    },
-    {
-        initialRouteName:'Map',
-        tabBarOptions: {
-          activeTintColor: '#006064',
-          inactiveTintColor:'#E0F7FA',
-          labelStyle: {
-            fontSize: 17,
-            fontWeight: '500',
-            marginBottom: 10,
-          },
-          style: {
-            backgroundColor: '#80DEEA',
-          },
-        }
-    }
-  ),
+const RootStack = createStackNavigator({
+  Home: {
+    screen: HomeScreen,
     navigationOptions: () => ({
-         title: 'List/Map',
-         headerStyle:{ backgroundColor:'#80DEEA'},
-         headerTitleStyle:{ color: '#E0F7FA'},
-         headerTintColor:'#E0F7FA',
+      title: 'Welcome to POIS',
+      headerStyle: {
+        backgroundColor: '#80DEEA'
+      },
+      headerTitleStyle: {
+        color: '#E0F7FA'
+      },
+    }),
+  },
+  List_Map: {
+    screen: createBottomTabNavigator({
+      List: ListMapStack2,
+      Map: ListMapStack1,
+    }, {
+      initialRouteName: 'List',
+      tabBarOptions: {
+        activeTintColor: '#0097A7',
+        inactiveTintColor: '#E0F7FA',
+        labelStyle: {
+          fontSize: 17,
+          fontWeight: '500',
+          marginBottom: 10,
+        },
+        style: {
+          backgroundColor: '#80DEEA',
+        },
+      }
+    }),
+    navigationOptions: () => ({
+      title: 'List/Map',
+      headerStyle: {
+        backgroundColor: '#80DEEA'
+      },
+      headerTitleStyle: {
+        color: '#E0F7FA'
+      },
+      headerTintColor: '#E0F7FA',
 
-       }),
-  },});
+    }),
+  },
+});
 
 const AppContainer = createAppContainer(RootStack);
 
@@ -108,14 +115,18 @@ export default function App() {
 
   const [userLoc,setUserLoc]=useState({})
 
-  //get from the points json
-  store.dispatch({type: "LOGIN"});
+  useEffect(() => {
+    //when you open the app,ill get your location,if you allow it
+    this._getLocationAsync();
 
-  useEffect(()=>{
-  //when you open the app,ill get your location,if you allow it
-  this._getLocationAsync();
+  }, []);
 
-  },[]);
+  useEffect(() => {
+    //after i get the location i fetch the points from the api using middleware,store
+    store.dispatch(fetchPoints());
+
+  }, [userLoc])
+
 
   _getLocationAsync = async () => {
     let {status} = await Permissions.askAsync(Permissions.LOCATION);

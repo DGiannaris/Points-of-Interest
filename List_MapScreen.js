@@ -5,9 +5,7 @@ import {
   View,
 } from 'react-native';
 
-
-
-// made this component as fallback, which ill use later in development
+// tabscreens 'container'
 export default function List_MapScreen(props) {
   return (
     <View style={styles.container}>

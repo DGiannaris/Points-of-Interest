@@ -1,29 +1,16 @@
-import { createStore} from 'redux'
-
-let sec;
-//'hackish way to get initial state,sorry'
-const fetchAsync = async () =>
-	await (await fetch('https://warply.s3.amazonaws.com/data/test_pois.json')).json()
-
-  fetchAsync()
-      .then(data => sec=data)
-      .catch(reason => console.log(reason.message))
-
-
-
-
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 //simple reducer
 function chatStore(state={}, action) {
 
   switch(action.type) {
-    case "LOGIN":
-
+    case 'LOGIN':
       return {...state,
-        points: sec,
+        points: action.payload,
         };
     default:
       return state;
   }
 }
-export default createStore(chatStore);
+export default createStore(chatStore,applyMiddleware(thunk));
