@@ -14,6 +14,7 @@ import * as Permissions from 'expo-permissions';
 import * as Location from  'expo-location';
 import {fetchPoints} from './setThunk.js';
 import {
+  Alert,
   AppRegistry,
 } from 'react-native';
 
@@ -131,10 +132,12 @@ export default function App() {
   _getLocationAsync = async () => {
     let {status} = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
-      setUserLoc( 'Permission to access location was denied');
+      setUserLoc('false');
+      Alert.alert('Some services may not work correctly')
     }
 
     let location = await Location.getCurrentPositionAsync({});
+
     setUserLoc( location.coords );
   };
 
